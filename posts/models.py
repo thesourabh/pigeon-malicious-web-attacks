@@ -22,7 +22,7 @@ class Post(models.Model):
 
     def save(self, *args, **kwargs):
         self.message_html = misaka.html(self.message)
-        super().save(*args, **kwargs)
+        super(Post, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse(

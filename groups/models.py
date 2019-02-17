@@ -29,7 +29,7 @@ class Group(models.Model):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
         self.description_html = misaka.html(self.description)
-        super().save(*args, **kwargs)
+        super(Group, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse("groups:single", kwargs={"slug": self.slug})

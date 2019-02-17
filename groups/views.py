@@ -39,7 +39,7 @@ class JoinGroup(LoginRequiredMixin, generic.RedirectView):
         else:
             messages.success(self.request,"You are now a member of the {} group.".format(group.name))
 
-        return super().get(request, *args, **kwargs)
+        return super(JoinGroup, self).get(request, *args, **kwargs)
 
 
 class LeaveGroup(LoginRequiredMixin, generic.RedirectView):
@@ -67,4 +67,4 @@ class LeaveGroup(LoginRequiredMixin, generic.RedirectView):
                 self.request,
                 "You have successfully left this group."
             )
-        return super().get(request, *args, **kwargs)
+        return super(LeaveGroup, self).get(request, *args, **kwargs)
