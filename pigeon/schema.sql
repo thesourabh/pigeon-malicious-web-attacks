@@ -34,6 +34,7 @@ INSERT INTO user values(3, 'Pranavi', 'Pranavi', 'Pranavi', 'Rambhakta');
 INSERT INTO user values(4, 'Sourabh', 'Sourabh', 'Sourabh', 'Shetty');
 INSERT INTO user values(5, 'Lonely', 'Lonely', 'Lonely', 'Misanthrope');
 
+INSERT INTO post values(NULL, 1, '2001-11-11 13:23:44', 'Hello, Admin here!');
 INSERT INTO post values(NULL, 3, '2020-11-11 13:23:44', 'OMG, Hassan is so cool!');
 INSERT INTO post values(NULL, 4, '2015-07-07 13:23:44', "A huge round of applause for what I can only describe as Eva Green's rap battle with Lucifer #PennyDreadful.");
 INSERT INTO post values(NULL, 4, '2017-08-08 13:23:44', "PSA: Before y'all start shipping them, friendly reminder that Jon Snow is Daenerys' nephew. #GameOfThrones");
