@@ -6,9 +6,8 @@
 `pip install -r requirements.txt`
 
 #### Export Environment Variables
-`export FLASK_APP=pigeon`
-
-`export FLASK_ENV=development`
+##### Ubuntu
+`export FLASK_APP=pigeon && export FLASK_ENV=development`
 
 #### Initialize Database
 `flask init-db`

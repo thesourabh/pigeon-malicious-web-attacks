@@ -15,15 +15,14 @@ CREATE TABLE post (
   author_id INTEGER NOT NULL,
   created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   body TEXT NOT NULL,
-  title TEXT NOT NULL,
   FOREIGN KEY (author_id) REFERENCES user (id)
 );
 
 CREATE TABLE relation (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  of_user_id INTEGER NOT NULL,
-  to_user_id INTEGER NOT NULL,
-  relation INTEGER NOT NULL,
-  FOREIGN KEY (of_user_id) REFERENCES user (id),
-  FOREIGN KEY (to_user_id) REFERENCES user (id)
+  user_id_1 INTEGER NOT NULL,
+  user_id_2 INTEGER NOT NULL,
+  type INTEGER NOT NULL,
+  FOREIGN KEY (user_id_1) REFERENCES user (id),
+  FOREIGN KEY (user_id_2) REFERENCES user (id)
 );
