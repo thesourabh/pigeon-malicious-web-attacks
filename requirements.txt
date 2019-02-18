@@ -1,5 +1,1 @@
-Django
-django-bootstrap3
-misaka
-django-braces
-future
+flask
