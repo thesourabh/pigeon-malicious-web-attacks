@@ -13,11 +13,16 @@ bp = Blueprint('blog', __name__)
 @login_required
 def index():
     """Show all the posts, most recent first."""
+
+    uid = g.user['id']
+
     db = get_db()
     posts = db.execute(
         'SELECT p.id, body, created, author_id, username'
         ' FROM post p JOIN user u ON p.author_id = u.id'
-        ' ORDER BY created DESC'
+        ' WHERE p.author_id in (SELECT user_id_2 from relation WHERE user_id_1 = ? AND type = 1)'
+        ' ORDER BY created DESC',
+        (str(uid), )
     ).fetchall()
     return render_template('blog/index.html', posts=posts)
 
