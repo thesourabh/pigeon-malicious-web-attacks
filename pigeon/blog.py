@@ -70,7 +70,6 @@ def get_user_info(uid):
 
 
 def update_relation(uid1, uid2, type):
-    print 'update_relation'
     db = get_db()
     db.execute(
         'UPDATE relation SET type = ? WHERE user_id_1 = ? AND user_id_2 = ?',
@@ -81,7 +80,6 @@ def update_relation(uid1, uid2, type):
 
 
 def create_relation(uid1, uid2, type):
-    print "create_relation"
     db = get_db()
     db.execute(
         'INSERT INTO relation (user_id_1, user_id_2, type)'
@@ -89,8 +87,6 @@ def create_relation(uid1, uid2, type):
         (str(uid1), str(uid2), str(type))
     )
     db.commit()
-
-    print "%s, %s, %s"%(uid1, uid2, type)
 
     return
 
@@ -219,7 +215,6 @@ def user(username):
 
     action = request.args.get('action')
     if action is not None:
-        print "setting relation"
         set_relation(my_id, their_id, action)
 
     relation = get_user_relation(my_id,their_id)
@@ -231,6 +226,20 @@ def user(username):
     relation=int(relation), info=info,
     followers=followers, following=following)
 
+
+@bp.route('/search', methods=('GET', 'POST'))
+@login_required
+def search_user():
+    query = request.form['query']
+    needle = '%%%s%%'%query
+    db = get_db()
+    results = db.execute(
+        'SELECT * FROM user'
+        ' WHERE first_name like ? OR last_name like ? OR username like ?',
+        (needle,needle,needle)
+    ).fetchall()
+
+    return render_template('blog/search.html', results=results, query=query)
 
 
 @bp.route('/<int:id>/delete', methods=('POST',))

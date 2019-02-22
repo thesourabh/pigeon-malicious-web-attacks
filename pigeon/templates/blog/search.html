@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %} Search: {{ query }}{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  {% for result in results %}
+    <a href="{{ url_for('blog.user', username=result['username']) }}">
+      {{ result['first_name'] }} {{ result['last_name'] }} @{{ result['username'] }}
+    </a>
+  </br>
+  {% endfor %}
+{% endblock %}
