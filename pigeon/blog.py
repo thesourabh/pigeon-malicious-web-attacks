@@ -8,6 +8,17 @@ from pigeon.db import get_db
 
 bp = Blueprint('blog', __name__)
 
+def db_execute_safe(db, query, args):
+    return db.execute(query, args)
+
+
+def db_execute_unsafe(db, query, args):
+    query = query.replace('?', "'%s'")
+    query = query%args
+    print "-------------", query
+    return db.executescript(query)
+
+
 def get_user_id(username):
     db = get_db()
     id = db.execute(
@@ -165,7 +176,7 @@ def create():
             flash(error)
         else:
             db = get_db()
-            db.execute(
+            db_execute_unsafe(db,
                 'INSERT INTO post (body, author_id)'
                 ' VALUES (?, ?)',
                 (body, g.user['id'])

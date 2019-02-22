@@ -14,3 +14,9 @@
 
 #### Run
 `flask run`
+
+#### SQL Injection
+`a','1');DROP TABLE user;`
+
+#### Cross-site scripting
+`<script type='application/javascript'>alert('xss');</script>`
