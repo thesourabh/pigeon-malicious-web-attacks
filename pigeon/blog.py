@@ -69,6 +69,48 @@ def get_user_info(uid):
     return info
 
 
+def update_relation(uid1, uid2, type):
+    print 'update_relation'
+    db = get_db()
+    db.execute(
+        'UPDATE relation SET type = ? WHERE user_id_1 = ? AND user_id_2 = ?',
+        (str(type), str(uid1), str(uid2))
+    )
+    db.commit()
+    return
+
+
+def create_relation(uid1, uid2, type):
+    print "create_relation"
+    db = get_db()
+    db.execute(
+        'INSERT INTO relation (user_id_1, user_id_2, type)'
+        ' VALUES (?, ?, ?)',
+        (str(uid1), str(uid2), str(type))
+    )
+    db.commit()
+
+    print "%s, %s, %s"%(uid1, uid2, type)
+
+    return
+
+
+def set_relation(uid1, uid2, type):
+    db = get_db()
+    relation = db.execute(
+        'SELECT type'
+        ' FROM relation r WHERE user_id_1 = ? AND user_id_2 = ?',
+        (str(uid1), str(uid2))
+    ).fetchone()
+
+    if relation:
+        update_relation(uid1, uid2, type)
+    else:
+        create_relation(uid1, uid2, type)
+
+    return
+
+
 @bp.route('/')
 @login_required
 def index():
@@ -174,8 +216,13 @@ def user(username):
 
     my_id = g.user['id']
     their_id = get_user_id(username)
-    relation = get_user_relation(my_id,their_id)
 
+    action = request.args.get('action')
+    if action is not None:
+        print "setting relation"
+        set_relation(my_id, their_id, action)
+
+    relation = get_user_relation(my_id,their_id)
     info = get_user_info(their_id)
     followers = get_user_followers(their_id)
     following = get_user_following(their_id)
@@ -184,11 +231,6 @@ def user(username):
     relation=int(relation), info=info,
     followers=followers, following=following)
 
-
-@bp.route('/user/<string:username>', methods=('GET', 'POST'))
-@login_required
-def follow(username):
-    return user(username)
 
 
 @bp.route('/<int:id>/delete', methods=('POST',))
