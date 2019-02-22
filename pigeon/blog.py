@@ -31,6 +31,33 @@ def get_user_relation(uid1, uid2):
 
     return '0'
 
+def get_user_followers_blocked(uid, type):
+    db = get_db()
+    return db.execute(
+        'SELECT u.id, u.username'
+        ' FROM user u JOIN relation r ON r.user_id_1 = u.id'
+        ' WHERE r.user_id_2 = ? AND r.type = ?',
+        (str(uid), str(type))
+    ).fetchall()
+
+
+def get_user_blocked(uid):
+    return get_user_followers_blocked(uid, 2)
+
+
+def get_user_followers(uid):
+    return get_user_followers_blocked(uid, 1)
+
+
+def get_user_following(uid):
+    db = get_db()
+    return db.execute(
+        'SELECT u.id, u.username'
+        ' FROM user u JOIN relation r ON r.user_id_2 = u.id'
+        ' WHERE r.user_id_1 = ? AND r.type = ?',
+        (str(uid), '1')
+    ).fetchall()
+
 
 def get_user_info(uid):
     db = get_db()
@@ -150,8 +177,12 @@ def user(username):
     relation = get_user_relation(my_id,their_id)
 
     info = get_user_info(their_id)
+    followers = get_user_followers(their_id)
+    following = get_user_following(their_id)
 
-    return render_template('blog/user.html', posts=posts, relation=int(relation), info=info)
+    return render_template('blog/user.html', posts=posts,
+    relation=int(relation), info=info,
+    followers=followers, following=following)
 
 
 @bp.route('/user/<string:username>', methods=('GET', 'POST'))

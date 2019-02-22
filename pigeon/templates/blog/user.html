@@ -2,8 +2,8 @@
 
 {% block header %}
   <h1>{% block title %} {{info['first_name']}} {{info['last_name']}} @{{info['username']}} {% endblock %}</h1>
-  Followers:
-  Following:
+  Followers: {{followers|length}}
+  Following: {{following|length}}
 {% endblock %}
 
 {% block content %}
