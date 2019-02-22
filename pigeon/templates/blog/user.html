@@ -2,11 +2,14 @@
 
 {% block header %}
   <h1>{% block title %} {{info['first_name']}} {{info['last_name']}} @{{info['username']}} {% endblock %}</h1>
-  {% if relation == 0 %}
-  <a class="action" href="{{ url_for('blog.user', username=info['username'], action=1) }}">Follow</a>
-  {% endif %}
-  {% if relation == 1 %}
-  <a class="action" href="{{ url_for('blog.user', username=info['username'], action=0) }}">Un-Follow</a>
+  {% if info['id'] == g.user['id'] %}
+  {% else %}
+    {% if relation == 0 %}
+    <a class="action" href="{{ url_for('blog.user', username=info['username'], action=1) }}">Follow</a>
+    {% elif relation == 1 %}
+    <a class="action" href="{{ url_for('blog.user', username=info['username'], action=0) }}">Un-Follow</a>
+    {% elif relation == 2 %}
+    {% endif %}
   {% endif %}
   Followers: {{followers|length}}
   Following: {{following|length}}
