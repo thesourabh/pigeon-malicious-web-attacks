@@ -8,6 +8,39 @@ from pigeon.db import get_db
 
 bp = Blueprint('blog', __name__)
 
+def get_user_id(username):
+    db = get_db()
+    id = db.execute(
+        'SELECT id '
+        ' FROM user u WHERE username = ?',
+        (username,)
+    ).fetchone()[0]
+
+    return id
+
+def get_user_relation(uid1, uid2):
+    db = get_db()
+    relation = db.execute(
+        'SELECT type'
+        ' FROM relation r WHERE user_id_1 = ? AND user_id_2 = ?',
+        (str(uid1), str(uid2))
+    ).fetchone()
+
+    if relation:
+        return relation[0]
+
+    return '0'
+
+
+def get_user_info(uid):
+    db = get_db()
+    info = db.execute(
+        'SELECT * FROM user where id = ?',
+        (str(uid),)
+    ).fetchone()
+
+    return info
+
 
 @bp.route('/')
 @login_required
@@ -111,8 +144,20 @@ def user(username):
         ' ORDER BY created DESC',
         (username,)
     ).fetchall()
-    print posts
-    return render_template('blog/user.html', posts=posts)
+
+    my_id = g.user['id']
+    their_id = get_user_id(username)
+    relation = get_user_relation(my_id,their_id)
+
+    info = get_user_info(their_id)
+
+    return render_template('blog/user.html', posts=posts, relation=int(relation), info=info)
+
+
+@bp.route('/user/<string:username>', methods=('GET', 'POST'))
+@login_required
+def follow(username):
+    return user(username)
 
 
 @bp.route('/<int:id>/delete', methods=('POST',))
