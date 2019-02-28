@@ -19,4 +19,7 @@
 `a','1');DROP TABLE user;`
 
 #### Cross-site scripting
+Code needs to be sanitized for SQL
+[SQL Escape](https://www.freeformatter.com/sql-escape.html)
+
 `<script type='application/javascript'>alert('xss');</script>`
