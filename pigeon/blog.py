@@ -180,7 +180,7 @@ def create():
             flash(error)
         else:
             db = get_db()
-            db_execute_unsafe(db,
+            db_execute_safe(db,
                 'INSERT INTO post (body, author_id)'
                 ' VALUES (?, ?)',
                 (body, g.user['id'])

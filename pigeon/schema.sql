@@ -40,7 +40,6 @@ INSERT INTO post values(NULL, 4, '2015-07-07 13:23:44', "A huge round of applaus
 INSERT INTO post values(NULL, 4, '2017-08-08 13:23:44', "PSA: Before y'all start shipping them, friendly reminder that Jon Snow is Daenerys' nephew. #GameOfThrones");
 
 INSERT INTO relation values(NULL, 2, 3, 1);
-INSERT INTO relation values(NULL, 2, 4, 1);
 INSERT INTO relation values(NULL, 3, 2, 1);
 INSERT INTO relation values(NULL, 3, 4, 1);
 INSERT INTO relation values(NULL, 4, 2, 1);
