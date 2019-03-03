@@ -5,7 +5,9 @@ from werkzeug.exceptions import abort
 
 from pigeon.auth import login_required
 from pigeon.db import get_db
+from flask_wtf.csrf import CsrfProtect
 
+csrf = CsrfProtect()
 bp = Blueprint('blog', __name__)
 
 def db_execute_safe(db, query, args):
@@ -168,6 +170,7 @@ def get_post(id, check_author=True):
 @bp.route('/create', methods=('GET', 'POST'))
 @login_required
 def create():
+    # csrf.protect()
     """Create a new post for the current user."""
     if request.method == 'POST':
         body = request.form['body']
@@ -240,6 +243,7 @@ def user(username):
 
 
 @bp.route('/search', methods=('GET', 'POST'))
+@csrf.exempt
 @login_required
 def search_user():
     query = request.form['query']
