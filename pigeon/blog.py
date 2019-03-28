@@ -17,7 +17,7 @@ def db_execute_safe(db, query, args):
 def db_execute_unsafe(db, query, args):
     query = query.replace('?', "'%s'")
     query = query%args
-    print "-------------", query
+    print("-------------", query)
     return db.executescript(query)
 
 
@@ -170,7 +170,7 @@ def get_post(id, check_author=True):
 @bp.route('/create', methods=('GET', 'POST'))
 @login_required
 def create():
-    # csrf.protect()
+    #csrf.protect()
     """Create a new post for the current user."""
     if request.method == 'POST':
         body = request.form['body']
